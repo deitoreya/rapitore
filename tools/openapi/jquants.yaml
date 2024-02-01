@@ -1,0 +1,136 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  description: "JQuants"
+  title: "JQuants"
+paths:
+  /token/auth_user:
+    post:
+      description: "リフレッシュトークンを取得します"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MailPassword'
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RefreshToken'
+  /token/auth_refresh:
+    post:
+      description: "IDトークンを取得します"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshToken'
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDToken'
+  /listed/info:
+    get:
+      description: ""
+      security:
+      - Bearer: []
+      parameters:
+      - name: code
+        in: query
+        schema:
+          type: string
+      - name: date
+        in: query
+        schema:
+          type: string
+      responses:
+        "200":
+          description: "a"
+          content:
+            application/json:
+              schema:
+                items: 
+                  $ref: '#/components/schemas/ListedInfo'
+                type: array
+components:
+  schemas:
+    MailPassword:
+      description: mail and password
+      properties:
+        mailaddress:
+          type: string
+        password:
+          type: string
+    RefreshToken:
+      description: refresh token
+      properties:
+        refreshToken:
+          type: string
+    IDToken:
+      description: IDToken
+      properties:
+        idToken:
+          type: string
+    ListedInfo:
+      description: listed info
+      example:
+        Date: "2022-11-11"
+        Code: "86970"
+        CompanyName: "日本取引所グループ"
+        CompanyNameEnglish: "Japan Exchange Group,Inc."
+        Sector17Code: "16"
+        Sector17CodeName: "金融（除く銀行）"
+        Sector33Code: "7200"
+        Sector33CodeName: "その他金融業"
+        ScaleCategory: "TOPIX Large70"
+        MarketCode: "0111"
+        MarketCodeName: "プライム"
+        MarginCode: "1"
+        MarginCodeName: "信用"
+      properties:
+        Date:
+          format: string
+          type: string
+        Code:
+          format: string
+          type: string
+        CompanyName:
+          format: string
+          type: string
+        Sector17Code:
+          format: string
+          type: string
+        Sector17CodeName:
+          format: string
+          type: string
+        Sector33Code:
+          format: string
+          type: string
+        Sector33CodeName:
+          format: string
+          type: string
+        ScaleCategory:
+          format: string
+          type: string
+        MarketCode:
+          format: string
+          type: string
+        MarketCodeName:
+          format: string
+          type: string
+        MarginCode:
+          format: string
+          type: string
+        MarginCodeName:
+          format: string
+          type: string
+  securitySchemes:
+    Bearer:
+      type: http
+      scheme: bearer
+      description: Credentials or access token for API
